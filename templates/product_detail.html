@@ -1,0 +1,22 @@
+{% extends 'base.html' %} {% block title %}Product Detail{% endblock %} {% block
+head %} {{ super() }}
+<link
+  rel="stylesheet"
+  type="text/css"
+  href="{{ url_for('static',filename='css/product_detail.css') }}"
+/>
+{% endblock %} {% block content %}
+<div class="container">
+  <div class="product-name">Product Name: {{ product.title }}</div>
+  <div class="product-des">Description: {{ product.description }}</div>
+  <div class="product-des">Price: {{ product.price }}</div>
+  <div class="product-des">Seller: {{ product.seller }}</div>
+  {% if current_user.id == product.user_id %}
+  <div class="delete-btn">
+    <a href="{{ url_for('delete_product', product_id = product.id)}}"
+      >Delete Product</a
+    >
+  </div>
+  {% endif %}
+</div>
+{% endblock %}

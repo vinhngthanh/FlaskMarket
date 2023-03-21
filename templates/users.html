@@ -1,0 +1,17 @@
+{% extends 'base.html' %} {% block title %}All Users{% endblock %}{% block head
+%} {{ super() }}
+<link
+  rel="stylesheet"
+  type="text/css"
+  href="{{ url_for('static',filename='css/users.css') }}"
+/>
+{% endblock %} {% block content %}
+<h1>All Users</h1>
+<div class="container">
+  {% for user in users %}
+  <a class="name-holder" href="{{ url_for('user_profile', user_id=user.id) }}"
+    ><div class="center">{{ user.username }}</div>
+  </a>
+  {% endfor %}
+</div>
+{% endblock %}

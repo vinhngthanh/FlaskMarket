@@ -1,0 +1,24 @@
+{% extends 'base.html' %}{% block title %}New Product{% endblock %}{% block head
+%} {{ super() }}
+<link
+  rel="stylesheet"
+  type="text/css"
+  href="{{ url_for('static',filename='css/form.css') }}"
+/>
+{% endblock %} {% block content %}
+<div class="container">
+  <h1>New Product</h1>
+  <form
+    action="{{ url_for('new_product', user_id = current_user.id) }}"
+    method="POST"
+  >
+    {{ form.hidden_tag() }}
+    <div class="form-input">{{ form.title.label }} {{ form.title }}</div>
+    <div class="form-text-area">
+      {{ form.description.label }} {{ form.description }}
+    </div>
+    <div class="form-input">{{ form.price.label }} {{ form.price }}</div>
+    <div class="submit-btn">{{ form.submit }}</div>
+  </form>
+</div>
+{% endblock %}

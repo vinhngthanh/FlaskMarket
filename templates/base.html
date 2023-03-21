@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html>
+  {% block head %}
+  <head>
+    <link
+      rel="stylesheet"
+      type="text/css"
+      href="{{ url_for('static',filename='css/base.css') }}"
+    />
+    <title>{% block title %}Marketplace{% endblock %}</title></head
+  >{% endblock %}
+  <body>
+    <div class="nav-bar">
+      <div class="nav-left">
+        <a class="text-link" href=""><div class="nav-text">Marketplace</div></a>
+        <div class="nav-btn"><a href="{{ url_for('home') }}">Home</a></div>
+        <div class="nav-btn"><a href="{{ url_for('users') }}">Users</a></div>
+        <div class="nav-btn">
+          <a href="{{ url_for('products') }}">Products</a>
+        </div>
+      </div>
+
+      <div class="nav-right">
+        <div class="nav-links">
+          {% if current_user.is_authenticated %}
+          <div class="nav-btn">
+            <a href="{{ url_for('user_profile', user_id = current_user.id) }}"
+              >Profile</a
+            >
+          </div>
+
+          <div class="nav-btn">
+            <a
+              href="{{ url_for('redirect_new_product', user_id=current_user.id) }}"
+              >Add product</a
+            >
+          </div>
+
+          <div class="nav-btn">
+            <a href="{{ url_for('logout') }}">Logout</a>
+          </div>
+
+          {% else %}
+          <div class="nav-btn">
+            <a
+              href="{{ url_for('redirect_new_product', user_id=current_user.id) }}"
+              >Add product</a
+            >
+          </div>
+          <div class="nav-btn"><a href="{{ url_for('login') }}">Login</a></div>
+          <div class="nav-btn">
+            <a href="{{ url_for('new_user') }}">Register</a>
+          </div>
+          {% endif %}
+        </div>
+      </div>
+    </div>
+    {% with messages = get_flashed_messages(with_categories=true) %} {% if
+    messages %}
+    <ul class="flash">
+      {% for category, message in messages %}
+      <li class="flash-item flash-{{ category }}">
+        <span>{{ message }}</span>
+        <button class="flash-dismiss" onclick="this.parentElement.remove()">
+          &#x2715;
+        </button>
+      </li>
+      {% endfor %}
+    </ul>
+    {% endif %} {% endwith %} {% block content %} {% endblock %}
+  </body>
+</html>

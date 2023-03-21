@@ -1,0 +1,24 @@
+{% extends 'base.html' %} {% block title %}All Products{% endblock %}{% block
+head %} {{ super() }}
+<link
+  rel="stylesheet"
+  type="text/css"
+  href="{{ url_for('static',filename='css/products.css') }}"
+/>
+{% endblock %} {% block content %}
+<h1>All Products</h1>
+<div class="container">
+  {% for product in products %}
+  <div class="product-holder">
+    <a
+      class="center"
+      href="{{ url_for('product_detail', product_id=product.id) }}"
+      >{{ product.title }}</a
+    >
+    <div class="product-des"><b>Description:</b> {{ product.description }}</div>
+    <div class="product-des"><b>Price:</b> {{ product.price }}</div>
+    <div class="product-des"><b>Seller:</b> {{ product.seller }}</div>
+  </div>
+  {% endfor %}
+</div>
+{% endblock %}

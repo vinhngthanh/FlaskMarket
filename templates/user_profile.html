@@ -1,0 +1,34 @@
+{% extends 'base.html' %} {% block title %}{{ user.username }}{% endblock %} {%
+block head %} {{ super() }}
+<link
+  rel="stylesheet"
+  type="text/css"
+  href="{{ url_for('static',filename='css/user_profile.css') }}"
+/>
+{% endblock %}{% block content %}
+<div class="container">
+  <div class="username">Username: {{ user.username }}</div>
+  {% if current_user.email == user.email%}
+  <div>
+    <a href="{{ url_for('delete_user', user_id = user.id)}}">Delete Account</a>
+  </div>
+  {% endif %}
+  <div class="email">Email: {{ user.email }}</div>
+  <div class="my-products">My Products:</div>
+  <div class="products">
+    {% for product in user.products %}
+    <div class="product-holder">
+      <a
+        class="center"
+        href="{{ url_for('product_detail', product_id=product.id) }}"
+        >{{ product.title }}</a
+      >
+      <div class="product-des">
+        <b>Description:</b> {{ product.description }}
+      </div>
+      <div class="product-des"><b>Price:</b> {{ product.price }}</div>
+    </div>
+    {% endfor %}
+  </div>
+</div>
+{% endblock %}
