@@ -2,7 +2,7 @@ from flask import Flask, flash, render_template, request, redirect, url_for
 from flask_sqlalchemy import SQLAlchemy
 from forms import AddProductForm, AddUserForm, LoginForm, DeleteUserForm
 from models import db, User, Product
-from flask_bcrypt import Bcrypt
+from werkzeug.security import generate_password_hash, check_password_hash
 from flask_login import LoginManager, current_user, login_user, logout_user
 
 app = Flask(__name__)
@@ -10,7 +10,6 @@ app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///app.db'
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 app.config['SECRET_KEY'] = 'secret_key'
 db.init_app(app)
-bcrypt=Bcrypt(app)
 login_manager = LoginManager()
 login_manager.init_app(app)
 
@@ -66,7 +65,7 @@ def redirect_new_product():
 def new_user():
     form = AddUserForm()
     if form.validate_on_submit():
-        hashed_password = bcrypt.generate_password_hash(form.password.data).decode('utf-8')
+        hashed_password = generate_password_hash(form.password.data)
         user = User(username=form.username.data, email=form.email.data, password=hashed_password)
         db.session.add(user)
         db.session.commit()
@@ -81,7 +80,7 @@ def login():
     form = LoginForm()
     if form.validate_on_submit():
         user = User.query.filter_by(email=form.email.data).first()
-        if user and bcrypt.check_password_hash(user.password, form.password.data):
+        if user and check_password_hash(user.password, form.password.data):
             login_user(user)
             flash('You have been logged in!', 'success')
             return redirect(url_for('user_profile', user_id=user.id))
@@ -100,7 +99,7 @@ def delete_user(user_id):
     form = DeleteUserForm()
     if(form.validate_on_submit()):
         user = User.query.filter_by(id=user_id).first()
-        if user and bcrypt.check_password_hash(user.password, form.password.data):
+        if user and check_password_hash(user.password, form.password.data):
             db.session.delete(user)
             db.session.commit()
             flash('Account Deleted!', 'success')
