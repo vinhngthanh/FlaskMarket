@@ -1,4 +1,4 @@
-{% extends 'base.html' %} {% block title %}New Account{% endblock %}{% block
+{% extends 'base.html' %} {% block title %}Delete Account{% endblock %} {% block
 head %} {{ super() }}
 <link
   rel="stylesheet"
@@ -7,13 +7,15 @@ head %} {{ super() }}
 />
 {% endblock %} {% block content %}
 <div class="container">
-  <h1>Register</h1>
-  <form action="{{url_for('new_user')}}" method="POST">
-    {{ form.hidden_tag() }}
-    <div class="form-input">{{ form.username.label }} {{ form.username }}</div>
+  <h1>Delete Account</h1>
+  <form
+    action="{{url_for('main.delete_user', user_id = user_id)}}"
+    method="POST"
+  >
+    {{form.hidden_tag()}}
     <div class="form-input">{{ form.email.label }} {{ form.email }}</div>
     <div class="form-input">{{ form.password.label }} {{ form.password }}</div>
-    <div class="submit-btn">{{ form.submit }}</div>
+    <div class="delete-btn">{{ form.submit }}</div>
   </form>
 </div>
 {% endblock %}

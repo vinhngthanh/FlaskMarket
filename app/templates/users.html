@@ -9,7 +9,9 @@
 <h1>All Users</h1>
 <div class="container">
   {% for user in users %}
-  <a class="name-holder" href="{{ url_for('user_profile', user_id=user.id) }}"
+  <a
+    class="name-holder"
+    href="{{ url_for('main.user_profile', user_id=user.id) }}"
     ><div class="center">{{ user.username }}</div>
   </a>
   {% endfor %}

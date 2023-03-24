@@ -1,10 +1,30 @@
 import os
 
-class Config:
-    SECRET_KEY = os.environ.get('SECRET_KEY') or 'secret_key'
-    SQLALCHEMY_DATABASE_URI = 'sqlite:///app.db'
-    SQLALCHEMY_TRACK_MODIFICATIONS = False
+basedir = os.path.abspath(os.path.dirname(__file__))
 
-class TestConfig(Config):
+class Config:
+    
+    @staticmethod
+    def init_app(app):
+        app.config["SESSION_PERMANENT"] = False
+        app.config["SECRET_KEY"] = "secret_key"
+        app.config["SQLALCHEMY_DATABASE_URI"] = "sqlite:///app.db"
+
+        
+class DevelopmentConfig(Config):
+    DEBUG = True
+
+class TestingConfig(Config):
     TESTING = True
-    SQLALCHEMY_DATABASE_URI = 'sqlite:///test.db'
+    WTF_CSRF_ENABLED = False
+    SQLALCHEMY_DATABASE_URI = "sqlite:///test.db"
+    
+class ProductionConfig(Config):
+    DEBUG = False
+    
+config = {
+    "development": DevelopmentConfig,
+    "testing": TestingConfig,
+    "production": ProductionConfig,
+    "default": ProductionConfig
+}

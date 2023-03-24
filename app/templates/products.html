@@ -12,7 +12,7 @@ head %} {{ super() }}
   <div class="product-holder">
     <a
       class="center"
-      href="{{ url_for('product_detail', product_id=product.id) }}"
+      href="{{ url_for('main.product_detail', product_id=product.id) }}"
       >{{ product.title }}</a
     >
     <div class="product-des"><b>Description:</b> {{ product.description }}</div>
