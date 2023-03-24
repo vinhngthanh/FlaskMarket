@@ -4,11 +4,11 @@ from forms import AddProductForm, AddUserForm, LoginForm, DeleteUserForm
 from models import db, User, Product
 from werkzeug.security import generate_password_hash, check_password_hash
 from flask_login import LoginManager, current_user, login_user, logout_user
+from config import Config
 
 app = Flask(__name__)
-app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///app.db'
-app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
-app.config['SECRET_KEY'] = 'secret_key'
+app.config.from_object(Config)
+print(app.config['SQLALCHEMY_DATABASE_URI'])
 db.init_app(app)
 login_manager = LoginManager()
 login_manager.init_app(app)
@@ -128,4 +128,4 @@ def page_not_found(e):
     return app.send_static_file('error/404.html'), 404
 
 if __name__ == '__main__':
-    app.run(debug=True)
+    app.run()
